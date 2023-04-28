@@ -20,18 +20,18 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        {/* <Route path="/login" element={<LoginPage />} /> */}
+        <Route path="/login" element={<LoginPage />} />
         {/* <Route path="/member" element={<ContractForm />} /> */}
         <Route path="/" element={<ComingSoon />} />
         <Route path="/confirmationPage" element={<ConfirmationPage />} />
-        {/* <Route
+        <Route
           path="/test"
           element={
             <ProtectedRoute status={status}>
               <h1>Test Private</h1>
             </ProtectedRoute>
           }
-        /> */}
+        />
         <Route path="*" element={<ErrorPage />} />
       </Routes>
     </div>
