@@ -6,9 +6,6 @@ import "./index.css";
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
 
 import { AuthProvider } from "./context/authContext";
-import { ThemeProvider } from "@mui/material/styles";
-import { appTheme } from "./theme/theme";
-import { Paper } from "@mui/material";
 
 const client = new ApolloClient({
   uri: `${import.meta.env.VITE_API_URL}/graphql`,
@@ -20,9 +17,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <ApolloProvider client={client}>
       <BrowserRouter>
         <AuthProvider>
-          <ThemeProvider theme={appTheme}>
-            <App />
-          </ThemeProvider>
+          <App />
         </AuthProvider>
       </BrowserRouter>
     </ApolloProvider>
