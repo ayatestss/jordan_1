@@ -31,12 +31,13 @@ function App() {
             <Route path="/" element={<ComingSoon />} />
             <Route path="/confirmationPage" element={<ConfirmationPage />} />
             <Route path="*" element={<ErrorPage />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="*" element={<ErrorPage />} />
             <Route path="/services" element={<Services />} />
             <Route path="/invoices" element={<Invoices />} />
             <Route path="/faq" element={<FAQ />} />
             <Route path="/membersettings" element={<MemberSettings />} />
             <Route path="/MemberChat" element={<MemberChat />} />
-            <Route path="/dashboard" element={<Dashboard />} />
           </Routes>
         </div>
       </ThemeProvider>
