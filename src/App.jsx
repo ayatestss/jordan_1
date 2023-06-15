@@ -3,8 +3,8 @@ import { useMode, ColorModeContext } from "./theme/theme";
 import { CssBaseline, ThemeProvider } from "@mui/material";
 
 import ErrorPage from "./pages/ErrorPage";
-import ComingSoon from "./pages/ComingSoon/ComingSoon";
 import ConfirmationPage from "./pages/ComingSoon/ConfirmationPage";
+import EmailSignup from "./pages/ComingSoon/EmailSignup";
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -14,7 +14,7 @@ function App() {
         <CssBaseline />
         <div className="App">
           <Routes>
-            <Route path="/" element={<ComingSoon />} />
+            <Route path="/" element={<EmailSignup />} />
             <Route path="/confirmationPage" element={<ConfirmationPage />} />
             <Route path="*" element={<ErrorPage />} />
           </Routes>
