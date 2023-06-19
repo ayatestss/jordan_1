@@ -1,14 +1,7 @@
 import React, { useState } from "react";
-import {
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  Typography,
-  TextField,
-  Button,
-} from "@mui/material";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { Box, Typography, TextField, Button } from "@mui/material";
 import * as yup from "yup";
+import useMediaQuery from "@mui/material/useMediaQuery";
 
 const ChangePasswordPage = () => {
   const [currentPassword, setCurrentPassword] = useState("");
@@ -59,17 +52,19 @@ const ChangePasswordPage = () => {
       .oneOf([yup.ref("newPassword"), null], "Passwords must match"),
   });
 
+  const isNonMobile = useMediaQuery("(min-width:600px)");
+
   return (
-    <Accordion>
-      <AccordionSummary
-        expandIcon={<ExpandMoreIcon />}
-        aria-controls="change-password-content"
-        id="change-password-header"
-      >
-        <Typography>Change Password</Typography>
-      </AccordionSummary>
-      <AccordionDetails>
-        <form onSubmit={handleSubmit}>
+    <Box m="20px">
+      <form onSubmit={handleSubmit}>
+        <Box
+          display="grid"
+          gap="30px"
+          gridTemplateColumns="repeat(4, minmax(0, 1fr))"
+          sx={{
+            "& > div": { gridColumn: isNonMobile ? undefined : "span 4" },
+          }}
+        >
           <TextField
             label="Current Password"
             variant="outlined"
@@ -78,6 +73,7 @@ const ChangePasswordPage = () => {
             onChange={handleCurrentPasswordChange}
             error={!!errors.currentPassword}
             helperText={errors.currentPassword}
+            sx={{ gridColumn: "span 4" }}
           />
           <TextField
             label="New Password"
@@ -87,6 +83,7 @@ const ChangePasswordPage = () => {
             onChange={handleNewPasswordChange}
             error={!!errors.newPassword}
             helperText={errors.newPassword}
+            sx={{ gridColumn: "span 4" }}
           />
           <TextField
             label="Confirm Password"
@@ -96,13 +93,19 @@ const ChangePasswordPage = () => {
             onChange={handleConfirmPasswordChange}
             error={!!errors.confirmPassword}
             helperText={errors.confirmPassword}
+            sx={{ gridColumn: "span 4" }}
           />
-          <Button variant="contained" color="primary" type="submit">
-            Save
-          </Button>
-        </form>
-      </AccordionDetails>
-    </Accordion>
+          <Box display="flex" mt="20px" gap="30px">
+            <Button variant="contained" color="primary" type="submit">
+              Cancel
+            </Button>
+            <Button variant="contained" color="primary" type="submit">
+              Save
+            </Button>
+          </Box>
+        </Box>{" "}
+      </form>
+    </Box>
   );
 };
 

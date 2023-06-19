@@ -48,6 +48,17 @@ import { createContext, useState, useMemo } from "react";
           800: "#58201e",
           900: "#2c100f",
         },
+        yellowAccent: {
+          100: "#fff6d5",
+          200: "#ffeaa7",
+          300: "#ffdd79",
+          400: "#ffd04a",
+          500: "#ffc31c",
+          600: "#e6a800",
+          700: "#b38600",
+          800: "#806900",
+          900: "#4d4d00",
+        },
         blueAccent: {
           100: "#e1e2fe",
           200: "#c3c6fd",
@@ -128,7 +139,7 @@ export const themeSettings = (mode) => {
         ? {
             // palette values for dark mode
             primary: {
-              main: colors.primary[500],
+              main: colors.primary[200],
             },
             secondary: {
               main: colors.greenAccent[500],

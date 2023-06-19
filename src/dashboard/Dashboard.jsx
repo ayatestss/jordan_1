@@ -41,7 +41,13 @@ const Dashboard = () => {
             progress="0.75"
             increase="+14%"
             icon={
-              <EmailIcon sx={{ light: colors.grey[100], fontSize: "26px" }} />
+              <EmailIcon
+                sx={{
+                  color: colors.yellowAccent[500],
+                  light: colors.grey[100],
+                  fontSize: "26px",
+                }}
+              />
             }
           />
         </Box>
@@ -60,7 +66,11 @@ const Dashboard = () => {
             increase="+21%"
             icon={
               <PointOfSaleIcon
-                sx={{ light: colors.grey[100], fontSize: "26px" }}
+                sx={{
+                  color: colors.yellowAccent[500],
+                  light: colors.grey[100],
+                  fontSize: "26px",
+                }}
               />
             }
           />
@@ -78,7 +88,13 @@ const Dashboard = () => {
             progress="0.30"
             increase="+5%"
             icon={
-              <PaidIcon sx={{ light: colors.grey[100], fontSize: "26px" }} />
+              <PaidIcon
+                sx={{
+                  color: colors.yellowAccent[500],
+                  light: colors.grey[100],
+                  fontSize: "26px",
+                }}
+              />
             }
           />
         </Box>
@@ -97,7 +113,11 @@ const Dashboard = () => {
             increase="+43%"
             icon={
               <PsychologyAltIcon
-                sx={{ light: colors.grey[100], fontSize: "26px" }}
+                sx={{
+                  color: colors.yellowAccent[500],
+                  light: colors.grey[100],
+                  fontSize: "26px",
+                }}
               />
             }
           />

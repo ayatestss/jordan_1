@@ -5,37 +5,70 @@ import {
   useTheme,
   Button,
   Grid,
+  TextField,
+  List,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Stack,
 } from "@mui/material";
+import { ViewCompact, List as ListIcon } from "@mui/icons-material";
+
 //import { tokens } from "../../theme";
 import Header from "../../components/Header";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
-import { CardActionArea } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 
 const Services = () => {
   return (
     <Box m="20px">
-      <Header title="Services" subtitle="List of Services" />
+      <Header
+        title="Services"
+        subtitle="Add, Edit, and Delete your services you provide. List your prices, create custom packages, and more!"
+      />
 
-      <Grid container spacing={3}>
-        <Grid item xs={12} sm={6} md={3}>
-          <Card
-            sx={{
-              maxWidth: 400,
-            }}
+      <Grid spacing={3}>
+        <List>
+          <Stack
+            direction="row"
+            alignItems="center"
+            justifyContent="space-between"
           >
-            <CardActionArea>
+            <ListItemButton>
+              <ListItemIcon>
+                <ViewCompact />
+              </ListItemIcon>
+              <ListItemText primary="View" />
+            </ListItemButton>
+
+            <ListItemButton>
+              <ListItemIcon>
+                <ListIcon />
+              </ListItemIcon>
+              <ListItemText primary="List" />
+            </ListItemButton>
+          </Stack>
+          <Grid item xs={12} sm={6} md={3}>
+            <Card
+              sx={{
+                maxWidth: 400,
+                paddingTop: 5,
+                paddingLeft: 5,
+                paddingRight: 5,
+              }}
+            >
               <CardMedia
-                textAlign={"center"}
+                textalign={"center"}
                 component="img"
-                height="300"
+                height="500"
                 width="300"
                 src="/assets/yellowrestoration.jpg"
                 alt="sneakerrestoration"
               />
               <Typography
+                textalign={"center"}
                 variant="h3"
                 fontWeight="600"
                 sx={{ padding: "10px 15px 10 10px" }}
@@ -51,36 +84,37 @@ const Services = () => {
                 It happens, it looks bad but we will take care of the sneaker
                 yellowing on your kicks and make them look new.
               </Typography>
-            </CardActionArea>
-            <Box
-              display="flex"
-              justifyContent="flex-end"
-              alignItems="center"
-              padding="10px"
-            >
-              <Button
-                variant="contained"
-                startIcon={<DeleteIcon />}
-                sx={{ marginRight: "10px" }}
+              <Box
+                display="flex"
+                justifyContent="flex-end"
+                alignItems="center"
+                padding="10px"
               >
-                Delete
-              </Button>
-              <Button variant="contained" startIcon={<EditIcon />}>
-                Edit
-              </Button>
-            </Box>
-          </Card>
-        </Grid>
+                <Button
+                  variant="contained"
+                  startIcon={<DeleteIcon />}
+                  sx={{ marginRight: "10px" }}
+                >
+                  Delete
+                </Button>
+                <Button variant="contained" startIcon={<EditIcon />}>
+                  Edit
+                </Button>
+              </Box>
+            </Card>
+          </Grid>
 
-        <Grid item xs={12} sm={6} md={3}>
-          <Card
-            sx={{
-              maxWidth: 400,
-            }}
-          >
-            <CardActionArea>
+          <Grid item xs={12} sm={6} md={3}>
+            <Card
+              sx={{
+                maxWidth: 400,
+                paddingTop: 5,
+                paddingLeft: 5,
+                paddingRight: 5,
+              }}
+            >
               <CardMedia
-                textAlign={"center"}
+                textalign={"center"}
                 component="img"
                 height="300"
                 width="300"
@@ -103,36 +137,37 @@ const Services = () => {
                 It happens, it looks bad but we will take care of the sneaker
                 yellowing on your kicks and make them look new.
               </Typography>
-            </CardActionArea>
-            <Box
-              display="flex"
-              justifyContent="flex-end"
-              alignItems="center"
-              padding="10px"
-            >
-              <Button
-                variant="contained"
-                startIcon={<DeleteIcon />}
-                sx={{ marginRight: "10px" }}
+              <Box
+                display="flex"
+                justifyContent="flex-end"
+                alignItems="center"
+                padding="10px"
               >
-                Delete
-              </Button>
-              <Button variant="contained" startIcon={<EditIcon />}>
-                Edit
-              </Button>
-            </Box>
-          </Card>
-        </Grid>
+                <Button
+                  variant="contained"
+                  startIcon={<DeleteIcon />}
+                  sx={{ marginRight: "10px" }}
+                >
+                  Delete
+                </Button>
+                <Button variant="contained" startIcon={<EditIcon />}>
+                  Edit
+                </Button>
+              </Box>
+            </Card>
+          </Grid>
 
-        <Grid item xs={12} sm={6} md={3}>
-          <Card
-            sx={{
-              maxWidth: 400,
-            }}
-          >
-            <CardActionArea>
+          <Grid item xs={12} sm={6} md={3}>
+            <Card
+              sx={{
+                maxWidth: 400,
+                paddingTop: 5,
+                paddingLeft: 5,
+                paddingRight: 5,
+              }}
+            >
               <CardMedia
-                textAlign={"center"}
+                textalign={"center"}
                 component="img"
                 height="300"
                 width="300"
@@ -155,36 +190,37 @@ const Services = () => {
                 different pairs of shoes you provide and use the upper and sole
                 from each to create one hybrid sneaker.
               </Typography>
-            </CardActionArea>
-            <Box
-              display="flex"
-              justifyContent="flex-end"
-              alignItems="center"
-              padding="10px"
-            >
-              <Button
-                variant="contained"
-                startIcon={<DeleteIcon />}
-                sx={{ marginRight: "10px" }}
+              <Box
+                display="flex"
+                justifyContent="flex-end"
+                alignItems="center"
+                padding="10px"
               >
-                Delete
-              </Button>
-              <Button variant="contained" startIcon={<EditIcon />}>
-                Edit
-              </Button>
-            </Box>
-          </Card>
-        </Grid>
+                <Button
+                  variant="contained"
+                  startIcon={<DeleteIcon />}
+                  sx={{ marginRight: "10px" }}
+                >
+                  Delete
+                </Button>
+                <Button variant="contained" startIcon={<EditIcon />}>
+                  Edit
+                </Button>
+              </Box>
+            </Card>
+          </Grid>
 
-        <Grid item xs={12} sm={6} md={3}>
-          <Card
-            sx={{
-              maxWidth: 400,
-            }}
-          >
-            <CardActionArea>
+          <Grid item xs={12} sm={6} md={3}>
+            <Card
+              sx={{
+                maxWidth: 400,
+                paddingTop: 5,
+                paddingLeft: 5,
+                paddingRight: 5,
+              }}
+            >
               <CardMedia
-                textAlign={"center"}
+                textalign={"center"}
                 component="img"
                 height="300"
                 width="300"
@@ -208,26 +244,85 @@ const Services = () => {
                 Masterclass so you can learn how to Ice Sneakers with sole
                 sauce!
               </Typography>
-            </CardActionArea>
-            <Box
-              display="flex"
-              justifyContent="flex-end"
-              alignItems="center"
-              padding="10px"
-            >
-              <Button
-                variant="contained"
-                startIcon={<DeleteIcon />}
-                sx={{ marginRight: "10px" }}
+              <Box
+                display="flex"
+                justifyContent="flex-end"
+                alignItems="center"
+                padding="10px"
               >
-                Delete
-              </Button>
-              <Button variant="contained" startIcon={<EditIcon />}>
-                Edit
-              </Button>
-            </Box>
-          </Card>
-        </Grid>
+                <Button
+                  variant="contained"
+                  startIcon={<DeleteIcon />}
+                  sx={{ marginRight: "10px" }}
+                >
+                  Delete
+                </Button>
+                <Button variant="contained" startIcon={<EditIcon />}>
+                  Edit
+                </Button>
+              </Box>
+            </Card>
+          </Grid>
+
+          <Grid item xs={12} sm={6} md={3}>
+            <Card
+              sx={{
+                maxWidth: 400,
+                paddingTop: 5,
+                paddingLeft: 5,
+                paddingRight: 5,
+              }}
+            >
+              <CardMedia
+                textalign={"center"}
+                component="img"
+                height="300"
+                width="300"
+                src="/assets/iceysolerestoration.jpeg"
+                alt="sneakerrestoration"
+                sx={{ gridColumn: "span 2", marginBottom: "30px" }}
+              />
+              <TextField
+                fullWidth
+                variant="outlined"
+                type="text"
+                label="Enter Your Service"
+                sx={{ gridColumn: "span 2", marginBottom: "30px" }}
+              />
+              <TextField
+                fullWidth
+                variant="outlined"
+                type="text"
+                label="Enter a description "
+                sx={{ gridColumn: "span 2", marginBottom: "30px" }}
+              />{" "}
+              <TextField
+                fullWidth
+                variant="outlined"
+                type="text"
+                label="Enter a Price"
+                sx={{ gridColumn: "span 2", marginBottom: "30px" }}
+              />
+              <Box
+                display="flex"
+                justifyContent="flex-end"
+                alignItems="center"
+                padding="10px"
+              >
+                <Button
+                  variant="contained"
+                  startIcon={<DeleteIcon />}
+                  sx={{ marginRight: "10px" }}
+                >
+                  Cancel
+                </Button>
+                <Button variant="contained" startIcon={<EditIcon />}>
+                  Add Service
+                </Button>
+              </Box>
+            </Card>
+          </Grid>
+        </List>
       </Grid>
     </Box>
   );

@@ -10,7 +10,7 @@ import {
 const PricingCard = ({ title, price, headline, features, buttonText }) => {
   return (
     <Card
-      style={{ width: "400px", height: "300px", backgroundColor: "#CACACA" }}
+      style={{ width: "275px", height: "350px", backgroundColor: "#000000" }}
     >
       <CardContent
         style={{
@@ -19,7 +19,12 @@ const PricingCard = ({ title, price, headline, features, buttonText }) => {
           alignItems: "center",
         }}
       >
-        <Typography variant="h1" component="h2" style={{ color: "#FFFFFF" }}>
+        <Typography
+          sx={{ fontWeight: "bold" }}
+          variant="h1"
+          component="h2"
+          style={{ color: "#FFFFFF" }}
+        >
           {title}
         </Typography>
         <Typography
@@ -32,7 +37,7 @@ const PricingCard = ({ title, price, headline, features, buttonText }) => {
         <Typography variant="h3" component="h3" style={{ color: "#FFFFFF" }}>
           {headline}
         </Typography>
-        <Typography variant="h5" component="h5" style={{ color: "#FFFFFF" }}>
+        <Typography variant="h5" component="h4" style={{ color: "#FFFFFF" }}>
           {features}
         </Typography>
       </CardContent>

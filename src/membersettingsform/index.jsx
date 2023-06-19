@@ -2,20 +2,67 @@ import { Box, Button, TextField } from "@mui/material";
 import { Formik } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { useState } from "react";
 
 const Form = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
+  const [errors, setErrors] = useState();
 
-  const handleFormSubmit = (values) => {
-    console.log(values);
+  const handleFormSubmit = (event) => {
+    event.preventDefault();
+    schema
+      .validate(
+        {
+          firstName,
+          lastName,
+          email,
+          contact,
+          address1,
+          address2,
+        },
+        { abortEarly: false }
+      )
+      .then(() => {
+        //Submit form
+      })
+      .catch((err) => {
+        const newErrors = {};
+        err.inner.forEach((error) => {
+          newErrors[error.path] = error.message;
+        });
+        setErrors(newErrors);
+      });
   };
 
+  const initialValues = {
+    firstName: "",
+    lastName: "",
+    email: "",
+    contact: "",
+    address1: "",
+    address2: "",
+  };
+
+  const phoneRegExp =
+    /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
+
+  const schema = yup.object().shape({
+    firstName: yup.string().required("required"),
+    lastName: yup.string().required("required"),
+    email: yup.string().email("invalid email").required("required"),
+    contact: yup
+      .string()
+      .matches(phoneRegExp, "Phone number is not valid")
+      .required("required"),
+    address1: yup.string().required("required"),
+    address2: yup.string().required("required"),
+  });
   return (
     <Box m="20px">
       <Formik
         onSubmit={handleFormSubmit}
         initialValues={initialValues}
-        //validationSchema={checkoutSchema}
+        validationSchema={schema}
       >
         {({
           values,
@@ -36,33 +83,33 @@ const Form = () => {
             >
               <TextField
                 fullWidth
-                variant="filled"
+                variant="outlined"
                 type="text"
                 label="First Name"
                 onBlur={handleBlur}
                 onChange={handleChange}
                 value={values.firstName}
                 name="firstName"
-                error={!!touched.firstName && !!errors.firstName}
-                helperText={touched.firstName && errors.firstName}
+                error={!!errors.firstName}
+                helperText={errors.firstName}
                 sx={{ gridColumn: "span 2" }}
               />
               <TextField
                 fullWidth
-                variant="filled"
+                variant="outlined"
                 type="text"
                 label="Last Name"
                 onBlur={handleBlur}
                 onChange={handleChange}
                 value={values.lastName}
                 name="lastName"
-                error={!!touched.lastName && !!errors.lastName}
-                helperText={touched.lastName && errors.lastName}
+                error={errors.lastName}
+                helperText={errors.lastName}
                 sx={{ gridColumn: "span 2" }}
               />
               <TextField
                 fullWidth
-                variant="filled"
+                variant="outlined"
                 type="text"
                 label="Email"
                 onBlur={handleBlur}
@@ -75,7 +122,7 @@ const Form = () => {
               />
               <TextField
                 fullWidth
-                variant="filled"
+                variant="outlined"
                 type="text"
                 label="Contact Number"
                 onBlur={handleBlur}
@@ -88,7 +135,7 @@ const Form = () => {
               />
               <TextField
                 fullWidth
-                variant="filled"
+                variant="outlined"
                 type="text"
                 label="Address 1"
                 onBlur={handleBlur}
@@ -101,7 +148,7 @@ const Form = () => {
               />
               <TextField
                 fullWidth
-                variant="filled"
+                variant="outlined"
                 type="text"
                 label="Address 2"
                 onBlur={handleBlur}
@@ -114,8 +161,8 @@ const Form = () => {
               />
             </Box>
             <Box display="flex" justifyContent="end" mt="20px">
-              <Button type="submit" color="secondary" variant="contained">
-                Save Changes
+              <Button type="submit" color="primary" variant="contained">
+                Save
               </Button>
             </Box>
           </form>
@@ -125,27 +172,7 @@ const Form = () => {
   );
 };
 
-// const phoneRegExp =
-//   /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
-
-// const checkoutSchema = yup.object().shape({
-//   firstName: yup.string().required("required"),
-//   lastName: yup.string().required("required"),
-//   email: yup.string().email("invalid email").required("required"),
-//   contact: yup
-//     .string()
-//     .matches(phoneRegExp, "Phone number is not valid")
-//     .required("required"),
-//   address1: yup.string().required("required"),
-//   address2: yup.string().required("required"),
-// });
-const initialValues = {
-  firstName: "",
-  lastName: "",
-  email: "",
-  contact: "",
-  address1: "",
-  address2: "",
-};
+const phoneRegExp =
+  /^((\+[1-9]{1,4}[ -]?)|(\([0-9]{2,3}\)[ -]?)|([0-9]{2,4})[ -]?)*?[0-9]{3,4}[ -]?[0-9]{3,4}$/;
 
 export default Form;
