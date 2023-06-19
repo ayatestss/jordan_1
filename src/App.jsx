@@ -11,6 +11,8 @@ import Invoices from "./pages/invoices";
 import MemberSettings from "./pages/membersettings";
 import MemberChat from "./pages/MemberChat/MemberChat";
 import FAQ from "./pages/faq";
+import { CssBaseline, ThemeProvider } from "@mui/material";
+import { useMode, ColorModeContext } from "./theme/theme";
 
 function App() {
   const [theme, colorMode] = useMode();
