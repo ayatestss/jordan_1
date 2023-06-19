@@ -1,7 +1,7 @@
 import { createTheme } from "@mui/material/styles";
 import { createContext, useState, useMemo } from "react";
 
-export const tokens = (mode) => ({
+ export const tokens = (mode) => ({
   ...(mode === "dark"
     ? {
         grey: {

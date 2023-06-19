@@ -1,7 +1,7 @@
+import { useState } from "react";
 import { Route, Routes } from "react-router-dom";
-import { useMode, ColorModeContext } from "./theme/theme";
-import { CssBaseline, ThemeProvider } from "@mui/material";
-
+import "./App.css";
+import LoginPage from "./pages/Login/LoginPage";
 import ErrorPage from "./pages/ErrorPage";
 import ConfirmationPage from "./pages/ComingSoon/ConfirmationPage";
 import EmailSignup from "./pages/ComingSoon/EmailSignup";
