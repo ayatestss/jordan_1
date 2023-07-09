@@ -1,18 +1,19 @@
-import { useState } from "react";
-import { Route, Routes } from "react-router-dom";
-import "./App.css";
-import LoginPage from "./pages/Login/LoginPage";
-import ErrorPage from "./pages/ErrorPage";
-import ConfirmationPage from "./pages/ComingSoon/ConfirmationPage";
-import EmailSignup from "./pages/ComingSoon/EmailSignup";
-import Dashboard from "./dashboard/Dashboard";
-import Services from "./pages/services";
-import Invoices from "./pages/invoices";
-import MemberSettings from "./pages/membersettings";
-import MemberChat from "./pages/MemberChat/MemberChat";
-import FAQ from "./pages/faq";
-import { CssBaseline, ThemeProvider } from "@mui/material";
-import { useMode, ColorModeContext } from "./theme/theme";
+import { useState } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import './App.css';
+import LoginPage from './pages/Login/LoginPage';
+import ErrorPage from './pages/ErrorPage';
+import ConfirmationPage from './pages/ComingSoon/ConfirmationPage';
+import EmailSignup from './pages/ComingSoon/EmailSignup';
+import Dashboard from './dashboard/Dashboard';
+import Services from './pages/services';
+import Invoices from './pages/invoices';
+import MemberSettings from './pages/membersettings';
+import MemberChat from './pages/MemberChat/MemberChat';
+import FAQ from './pages/faq';
+import { CssBaseline, ThemeProvider } from '@mui/material';
+import { useMode, ColorModeContext } from './theme/theme';
+import { AddUser } from './pages/ComingSoon/Add.User';
 
 function App() {
   const [theme, colorMode] = useMode();
@@ -30,7 +31,8 @@ function App() {
             <Route path="/invoices" element={<Invoices />} />
             <Route path="/faq" element={<FAQ />} />
             <Route path="/membersettings" element={<MemberSettings />} />
-            <Route path="/MemberChat" element={<MemberChat />} />
+            <Route path="/chat/:id" element={<MemberChat />} />
+            <Route path="/user" element={<AddUser />} />
           </Routes>
         </div>
       </ThemeProvider>

@@ -1,217 +1,170 @@
-import React, { useState } from "react";
-import {
-  AppBar,
-  Avatar,
-  Box,
-  IconButton,
-  List,
-  ListItem,
-  TextField,
-  Typography,
-  Stack,
-  Button,
-  MenuItem,
-  Menu,
-  Fade,
-  Drawer,
-} from "@mui/material";
-import SendIcon from "@mui/icons-material/Send";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import DeleteIcon from "@mui/icons-material/Delete";
-import ArchiveIcon from "@mui/icons-material/Archive";
-import MenuIcon from "@mui/icons-material/Menu"; // Import MenuIcon for the new button
-import MemberChatSidebar from "./MemberChatSidebar";
-import MicOff from "../MemberChat/Icons/MicOff";
-import InsertPhoto from "../MemberChat/Icons/InsertPhoto";
-import AttachFile from "../MemberChat/Icons/AttachFile";
+import React, { useEffect, useState, useRef } from 'react';
+import { Box, IconButton, List, ListItem, TextField } from '@mui/material';
+import SendIcon from '@mui/icons-material/Send';
+import { useMutation, useQuery, useSubscription } from '@apollo/client';
+import { GET_CHAT } from './graphql/getChat';
+import { ChatBubble } from './components/ChatBubble';
+import { CHAT_SUBSCRIPTION } from './graphql/subscribeToChat';
+import { CREATE_MESSAGE_MUTATION } from './graphql/createMessage';
+import { useParams } from 'react-router-dom';
+
 const Chat = () => {
-  const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState([
-    { text: "Hi John!", sender: "Jane", timestamp: new Date() },
-    { text: "Hey Jane!", sender: "John", timestamp: new Date() },
-    { text: "How are you?", sender: "Jane", timestamp: new Date() },
-    {
-      text: "I'm good, thanks. How about you?",
-      sender: "John",
-      timestamp: new Date(),
+  const { id } = useParams();
+  const { data, loading, error, refetch } = useQuery(GET_CHAT, {
+    variables: {
+      chatId: id,
     },
-    { text: "I am doing well!", sender: "Jane", timestamp: new Date() },
-  ]);
+  });
+  const { data: subData } = useSubscription(CHAT_SUBSCRIPTION, {
+    variables: {
+      data: {
+        chatId: id,
+      },
+    },
+  });
 
-  const handleSend = (e) => {
+  const [createMessage] = useMutation(CREATE_MESSAGE_MUTATION);
+
+  const getChatMemberIds = (arr) => {
+    const uniqueIds = new Set();
+    const result = [];
+
+    for (const obj of arr) {
+      if (!uniqueIds.has(obj.senderId)) {
+        uniqueIds.add(obj.senderId);
+        result.push(obj.senderId);
+      }
+
+      if (result.length === 2) {
+        break;
+      }
+    }
+
+    return result;
+  };
+
+  const [message, setMessage] = useState('');
+  const [messages, setMessages] = useState([]);
+  const [memberIds, setMemberIds] = useState([]);
+
+  const chatEndRef = useRef(null);
+
+  useEffect(() => {
+    if (chatEndRef.current) {
+      chatEndRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [messages]);
+
+  useEffect(() => {
+    if (subData) {
+      refetch();
+    }
+  }, [subData]);
+
+  useEffect(() => {
+    if (!loading && data) {
+      setMessages(data.getChatById.messages);
+      const ids = getChatMemberIds(data.getChatById.messages);
+      setMemberIds(ids);
+    }
+  }, [data]);
+
+  const handleMessageSend = async (e) => {
     e.preventDefault();
-    if (message.trim() === "") return;
-    const now = new Date(); // get current date/time
-    setMessages([
-      ...messages,
-      { text: message, sender: "me", timestamp: now }, // add timestamp property
-    ]);
-    setMessage("");
-  };
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-  const [selectedFile, setSelectedFile] = useState(null);
-  const handleFileChange = (event) => {
-    const file = event.target.files;
-    if (file && file.type.startsWith("image/")) {
-      setSelectedFile(file);
-    } else {
-      setSelectedFile(null);
+    try {
+      const { data: response } = await createMessage({
+        variables: {
+          data: {
+            content: message,
+            senderId: '647c9974446c4f2f4004b927',
+            senderType: 'USER',
+            chatId: '648b93dbb21840cf5edfe616',
+          },
+        },
+        update: (cache, { data }) => {
+          // Update the cache manually with the new message
+          const newMessage = data.createMessage;
+          cache.modify({
+            id: cache.identify(data.getChatById),
+            fields: {
+              messages(existingMessages = []) {
+                return [...existingMessages, newMessage];
+              },
+            },
+          });
+        },
+      });
+
+      refetch();
+      setMessage('');
+    } catch (error) {
+      console.error(error);
     }
   };
-  // Add this state hook to manage the sidebar visibility
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  // Add this function to toggle the sidebar
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
+
   return (
-    <>
-      <Box sx={{ display: "flex", flexDirection: "column", height: "100%" }}>
-        <Drawer anchor="left" open={sidebarOpen} onClose={toggleSidebar}>
-          <Box sx={{ width: 250, overflow: "auto" }} role="presentation">
-            <MemberChatSidebar onClose={toggleSidebar} />
-          </Box>
-        </Drawer>
-        <AppBar position="static">
-          <Box
-            sx={{ display: "flex", alignItems: "center", padding: "8px 12px" }}
-          >
-            <IconButton
-              edge="start"
-              color="inherit"
-              aria-label="toggle-sidebar"
-              onClick={toggleSidebar}
-              sx={{ mr: 2 }}
+    <Box
+      sx={{
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100vh',
+        maxHeight: '100%',
+      }}
+    >
+      <Box
+        sx={{
+          flex: '1 1 auto',
+          overflowY: 'auto',
+          marginBottom: 'auto',
+        }}
+      >
+        <List sx={{ marginBottom: '16px' }}>
+          {messages.map((message, i) => (
+            <ListItem
+              key={i}
+              alignItems="flex-start"
+              sx={{
+                '&.member': {
+                  flexDirection: 'row-reverse',
+                  textAlign: 'right',
+                },
+              }}
+              className={message.senderType === 'MEMBER' ? 'member' : ''}
             >
-              <MenuIcon />
-            </IconButton>
-            <Avatar sx={{ bgcolor: "white", mr: 2 }}>J</Avatar>
-            <Typography variant="h6">John</Typography>
-            <Button
-              id="demo-customized-button"
-              aria-controls={open ? "demo-customized-menu" : undefined}
-              aria-haspopup="true"
-              aria-expanded={open ? "true" : undefined}
-              variant="contained"
-              disableElevation
-              onClick={handleClick}
-              endIcon={<MoreVertIcon />}
-              sx={{ marginLeft: "auto" }}
-            >
-              <Menu
-                id="fade-menu"
-                MenuListProps={{
-                  "aria-labelledby": "fade-button",
-                }}
-                anchorEl={anchorEl}
-                open={open}
-                onClose={handleClose}
-                TransitionComponent={Fade}
-              >
-                <MenuItem onClick={handleClose}>
-                  <DeleteIcon /> Delete
-                </MenuItem>
-                <MenuItem onClick={handleClose}>
-                  <ArchiveIcon /> Archive
-                </MenuItem>
-                <MenuItem onClick={handleClose}>
-                  <MicOff /> Muted
-                </MenuItem>
-              </Menu>
-            </Button>
-          </Box>
-        </AppBar>
+              <ChatBubble message={message} />
+            </ListItem>
+          ))}
+          <div ref={chatEndRef} />
+        </List>
+      </Box>
+      <form onSubmit={handleMessageSend}>
         <Box
-        // sx={{ flexGrow: 1, overflowY: "auto", padding: "16px" }}
+          component="div"
+          sx={{
+            display: 'flex',
+            alignItems: 'center',
+            borderRadius: '20px',
+            padding: '8px',
+            marginBottom: '16px',
+            position: 'sticky',
+            bottom: '0',
+          }}
         >
-          <List sx={{ marginBottom: "16px" }}>
-            {messages.map((message, i) => (
-              <ListItem
-                key={i}
-                alignItems="flex-start"
-                sx={{
-                  "&.me": {
-                    flexDirection: "row-reverse",
-                    textAlign: "right",
-                  },
-                }}
-                className={message.sender === "me" ? "me" : ""}
-              >
-                <Avatar
-                  sx={{
-                    bgcolor:
-                      message.sender === "me"
-                        ? "secondary.main"
-                        : "primary.main",
-                    mr: message.sender === "me" ? 0 : 2,
-                  }}
-                >
-                  {message.sender[0].toUpperCase()}
-                </Avatar>
-                <Box
-                  component="div"
-                  sx={{
-                    borderRadius: "10px",
-                    padding: "8px 12px",
-                    backgroundColor:
-                      message.sender === "me"
-                        ? "secondary.light"
-                        : "primary.light",
-                  }}
-                >
-                  <Typography sx={{ color: "common.white" }}>
-                    {message.text}
-                  </Typography>
-                  <Typography variant="body2" color="textSecondary">
-                    {new Date(message.timestamp).toLocaleString()}
-                  </Typography>
-                </Box>
-              </ListItem>
-            ))}
-          </List>
-        </Box>
-        <form onSubmit={handleSend}>
-          <Box
-            component="div"
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              borderRadius: "20px",
-              padding: "8px",
-              marginBottom: "16px",
-            }}
-          >
-            <TextField
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              placeholder="Type your message here..."
-              sx={{ flexGrow: 1, mr: 1 }}
-              fullWidth
-            />
-          </Box>
-        </form>
-        <Stack
-          direction="row"
-          alignItems="center"
-          justifyContent="end"
-          sx={{ px: 2, py: 1, bgcolor: "background.default" }}
-        >
-          <AttachFile />
-          <InsertPhoto />
+          <TextField
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            placeholder="Type your message here..."
+            sx={{ flexGrow: 1, mr: 1 }}
+            fullWidth
+          />
           <IconButton type="submit">
             <SendIcon />
           </IconButton>
-        </Stack>
-      </Box>
-    </>
+        </Box>
+      </form>
+    </Box>
   );
 };
+
 export default Chat;
